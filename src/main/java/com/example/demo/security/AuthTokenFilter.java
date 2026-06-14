@@ -37,7 +37,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Terjadi kesalahan pada sistem otentikasi.");
+                    "An authentication error has occurred.");
         }
     }
 

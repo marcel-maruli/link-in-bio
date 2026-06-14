@@ -37,7 +37,7 @@ public class LinkController {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
         if (!link.getProfile().getUser().getUsername().equals(currentUsername)) {
-            throw new RuntimeException("Akses Ditolak: Anda bukan pemilik link ini!");
+            throw new RuntimeException("Akses Denied: Unauthorized!");
         }
 
         link.setTitle(dto.getTitle());

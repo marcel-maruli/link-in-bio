@@ -31,7 +31,6 @@ public class ProfileController {
 
     @PutMapping("/profiles/{id}")
     public ResponseEntity<Profile> edit(@PathVariable Long id) {
-        System.out.println("MASUK GA SIH ASU?");
         Profile profile = profileService.findByUserId(id);
 
         if (profile == null) {
