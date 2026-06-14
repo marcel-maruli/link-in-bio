@@ -34,26 +34,28 @@ Before running the application, ensure you have installed:
    cd link-in-bio
    ```
 
-2. **Database Configuration:**:
-   Open src/main/resources/application.properties (or application.yml) and adjust your database connection:
+2. **Database Configuration:**
 
-   ```Properties
-   spring.application.name
-   spring.datasource.url=jdbc:postgresql://localhost:5432/link_in_bio_db
-   spring.datasource.username=marcel
-   spring.datasource.password=12345
-   spring.jpa.hibernate.ddl-auto=update
-   app.jwt.secret=${JWT_SECRET:ThisIsSecret}
-   ```
+Open src/main/resources/application.properties (or application.yml) and adjust your database connection:
+
+```Properties
+spring.application.name
+spring.datasource.url=jdbc:postgresql://localhost:5432/link_in_bio_db
+spring.datasource.username=marcel
+spring.datasource.password=12345
+spring.jpa.hibernate.ddl-auto=update
+app.jwt.secret=${JWT_SECRET:ThisIsSecret}
+```
 
 3. **Run the application:**:
-   Open src/main/resources/application.properties (or application.yml) and adjust your database connection:
 
-   ```bash
-   ./mvnw spring-boot:run
-   ```
+Open src/main/resources/application.properties (or application.yml) and adjust your database connection:
 
-   The application will run at http://localhost:8080
+```bash
+./mvnw spring-boot:run
+```
+
+The application will run at http://localhost:8080
 
 ## 📖 Project Structure
 
