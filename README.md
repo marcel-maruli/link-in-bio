@@ -185,8 +185,65 @@ GET /api/public/<username>
 
 ```json
 {
-    "token": <HASHED_TOKEN>,
-    "username": "red_panda",
-    "type": "Bearer"
+  "avatarUrl": null,
+  "bio": "",
+  "displayName": "Wanda Witch",
+  "id": "profile_011",
+  "links": null,
+  "user": {
+    "fullName": "Wanda Witch",
+    "username": "red_panda"
+  }
 }
 ```
+
+**Response — 400 Bad Request**
+
+```json
+{
+  "success": false,
+  "error": "Profile not found"
+}
+```
+
+### Public Routes
+
+| Method     | Endpoint                    | Deskripsi                        |
+| :--------- | :-------------------------- | :------------------------------- |
+| `POST`     | `/api/auth/login`           | Login user untuk mendapatkan JWT |
+| `POST`     | `/api/auth/register`        | Registrasi user baru             |
+| `GET`      | `/api/links/`               | Mendapatkan semua link publik    |
+| `GET`      | `/api/links/{linkId}`       | Mendapatkan detail link spesifik |
+| `POST/GET` | `/api/public/**`            | Endpoint untuk konten publik     |
+| `GET`      | `/api/analytics`            | Mendapatkan data analitik publik |
+| `GET`      | `/api/links/{linkId}/click` | Melacak klik pada link           |
+
+### Private Routes
+
+Endpoints not listed in the table above are **protected**. If you do not provide a token, or if the provided token is invalid, the server will deny access and return a 401 Unauthorized response.
+
+**1. Authentication Scheme**
+The application utilizes the Bearer Token scheme. Every request to a protected endpoint must include the Authorization header in the following format:
+
+```HTTP
+Authorization: Bearer <TOKEN_THAT_YOU'VE_GOT_WHEN_LOGIN>
+```
+
+**2. Error Handling**
+If authentication fails, the API returns a JSON response in the following format:
+
+Format Error
+
+```json
+{
+  "error": "Unauthorized",
+  "message": "Token is not valid!"
+}
+```
+
+**3. HTTP Status Codes**
+
+| Status Code                 | Description                                |
+| :-------------------------- | :----------------------------------------- |
+| `401 Unauthorized`          | Token missing, expired, or invalid.        |
+| `500 Internal Server Error` | Server-side error during token validation. |

@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,16 +21,22 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
 
+    private static final List<String> PERMITTED_PATHS = List.of(
+            "/api/auth/",
+            "/api/public/",
+            "/api/analytics",
+            "/api/links/{linkId}/click");
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
 
-        if (requestURI.startsWith("/api/auth/")
-                || (requestURI.startsWith("/api/links/") && request.getMethod().equals("GET"))
-                || requestURI.startsWith("/api/public/")) {
+        boolean isPermittedPath = PERMITTED_PATHS.stream().anyMatch(requestURI::startsWith);
+        boolean isPublicLinkGet = requestURI.startsWith("/api/links/") && "GET".equals(request.getMethod());
 
+        if (isPermittedPath || isPublicLinkGet) {
             filterChain.doFilter(request, response);
             return;
         }

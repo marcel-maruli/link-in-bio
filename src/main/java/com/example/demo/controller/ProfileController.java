@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +50,18 @@ public class ProfileController {
     }
 
     @GetMapping("/public/{username}")
-    public ResponseEntity<ProfileDTO> getPublic(@PathVariable String username) {
-        Profile profile = profileService.findByUserUsername(username);
-        return ResponseEntity.ok(ProfileDTO.fromEntity(profile));
+    public ResponseEntity<?> getPublic(@PathVariable String username) {
+        try {
+
+            Profile profile = profileService.findByUserUsername(username);
+            return ResponseEntity.ok(ProfileDTO.fromEntity(profile));
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            errorResponse.put("success", false);
+
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
 
     }
 }
