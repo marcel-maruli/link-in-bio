@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User tidak ditemukan: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User tidak ditemukan: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
     public boolean existsByUsername(String username) {
