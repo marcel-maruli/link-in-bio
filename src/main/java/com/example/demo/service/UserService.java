@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setFullName(req.getFullName())
+        user.setFullName(req.getFullName());
 
         Profile profile = new Profile();
         profile.setDisplayName(req.getFullName());
