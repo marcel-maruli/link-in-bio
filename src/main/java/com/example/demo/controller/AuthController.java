@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UserResponseDTO;
+import com.example.demo.model.User;
 import com.example.demo.security.JwtUtils;
 import com.example.demo.service.UserService;
 
@@ -47,9 +52,17 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest req) {
         try {
-            System.out.println("DEBUG: Isi fullName dari Request: " + req.getFullName());
-            userService.registerUser(req);
-            return ResponseEntity.ok("User registered successfully!");
+            User savedUser = userService.registerUser(req);
+            UserResponseDTO response = new UserResponseDTO();
+            response.setId(savedUser.getId());
+            response.setUsername(savedUser.getUsername());
+            response.setFullName(savedUser.getProfile().getDisplayName());
+
+            Map<String, Object> httpRes = new HashMap<>();
+            httpRes.put("success", true);
+            httpRes.put("data", response);
+
+            return ResponseEntity.ok(httpRes);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

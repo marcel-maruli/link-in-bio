@@ -46,23 +46,22 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void registerUser(RegisterRequest req) {
+    public User registerUser(RegisterRequest req) {
         if (this.existsByUsername(req.getUsername()) == true) {
             throw new RuntimeException("Error: Username '" + req.getUsername() + "' is already taken!");
         }
         User user = new User();
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setFullName(req.getFullName())
 
         Profile profile = new Profile();
         profile.setDisplayName(req.getFullName());
         profile.setBio("");
         profile.setUser(user);
 
-        System.out.println("DEBUG: Profile Display Name sebelum save: " + profile.getDisplayName());
-
         user.setProfile(profile);
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

@@ -14,6 +14,7 @@ public class User {
     private Long id;
     @Column(unique = true, nullable = false)
     private String username;
+    private String fullName;
     @JsonIgnore
     private String password;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

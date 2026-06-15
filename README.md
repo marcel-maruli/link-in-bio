@@ -47,12 +47,11 @@ spring.jpa.hibernate.ddl-auto=update
 app.jwt.secret=${JWT_SECRET:ThisIsSecret}
 ```
 
-3. **Run the application:**:
-
-Open src/main/resources/application.properties (or application.yml) and adjust your database connection:
+3. **Run the application:**
+   Make Sure that your database is ready and active, and you already install mvn globally in your local computer, then run the application by using this command:
 
 ```bash
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 The application will run at http://localhost:8080
@@ -66,4 +65,128 @@ model/: Database entities (User, Profile, Link).
 repository/: Database access interfaces.
 service/: Business logic and data processing.
 config/: Application configuration (including SecurityConfig).
+```
+
+# 📖 API Documentation
+
+## Auth
+
+### Register
+
+**Endpoint**
+
+```http
+POST /api/auth/register
+```
+
+**Request Body**
+
+```json
+{
+  "username": "red_panda",
+  "fullName": "Wanda Witch",
+  "password": "12345"
+}
+```
+
+**Response — 201 Created**
+
+```json
+{
+  "data": {
+    "fullName": "Wanda Witch",
+    "id": 12,
+    "username": "red_panda"
+  },
+  "success": true
+}
+```
+
+### Login
+
+**Endpoint**
+
+```http
+POST /api/auth/login
+```
+
+**Request Body**
+
+```json
+{
+  "username": "red_panda",
+  "password": "12345"
+}
+```
+
+**Response — 200 Success**
+
+```json
+{
+    "token": <HASHED_TOKEN>,
+    "username": "red_panda",
+    "type": "Bearer"
+}
+```
+
+**Request Body**
+
+```json
+{
+  "username": "red_panda",
+  "password": "12345"
+}
+```
+
+**Response — 200 Success**
+
+```json
+{
+    "token": <HASHED_TOKEN>,
+    "username": "red_panda",
+    "type": "Bearer"
+}
+```
+
+### Get Profile
+
+**Endpoint**
+
+```http
+GET /api/public/<username>
+```
+
+**Response — 200 Success**
+
+```json
+{
+  "avatarUrl": null,
+  "bio": "",
+  "displayName": "Wanda Witch",
+  "id": "profile_011",
+  "links": null,
+  "user": {
+    "fullName": null,
+    "username": "red_panda"
+  }
+}
+```
+
+**Request Body**
+
+```json
+{
+  "username": "red_panda",
+  "password": "12345"
+}
+```
+
+**Response — 200 Success**
+
+```json
+{
+    "token": <HASHED_TOKEN>,
+    "username": "red_panda",
+    "type": "Bearer"
+}
 ```
