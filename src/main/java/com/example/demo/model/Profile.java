@@ -20,6 +20,6 @@ public class Profile {
     private String bio;
     private String avatarUrl;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Link> links;
 }

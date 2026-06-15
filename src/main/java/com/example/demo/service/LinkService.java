@@ -24,6 +24,8 @@ public class LinkService {
     private ClickRepository clickRepo;
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+private ClickRepository clickRepository; // Pastikan kamu punya repository ini
 
     @Transactional
     public Link updateLink(Long id, LinkDTO dto) {
@@ -60,10 +62,29 @@ public class LinkService {
         link.setProfile(profile);
         return linkRepo.save(link);
     }
+public Link saveWithUser(LinkDTO dto, String username) {
+        Profile profile = profileRepository.findByUserUsername(username)
+                .orElseThrow(() -> new RuntimeException("Profil tidak ditemukan untuk user: " + username));
 
-    @Transactional
-    public void delete(Long id) {
-        linkRepo.deleteById(id);
+        Link link = new Link();
+        link.setTitle(dto.getTitle());
+        link.setUrl(dto.getUrl());
+        
+        link.setProfile(profile);
+
+        return linkRepo.save(link);
     }
 
+@Transactional
+public void delete(Long linkId) {
+    Link link = linkRepo.findById(linkId)
+        .orElseThrow(() -> new RuntimeException("Link tidak ditemukan"));
+    
+    Profile profile = link.getProfile();
+    profile.getLinks().remove(link);
+    
+    linkRepo.delete(link);
+    
+    profileRepository.save(profile);
+}
 }

@@ -23,11 +23,13 @@ public class LinkController {
     private LinkRepository linkRepo;
     @Autowired
     private ProfileService profileService;
-
-    @PostMapping
-    public ResponseEntity<Link> create(@Valid @RequestBody LinkDTO dto) {
-        return ResponseEntity.ok(linkService.save(dto));
-    }
+    
+@PostMapping
+public ResponseEntity<Link> create(@Valid @RequestBody LinkDTO dto) {
+    String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+    
+    return ResponseEntity.ok(linkService.saveWithUser(dto, currentUsername));
+}
 
     @PutMapping("/{linkId}")
     public ResponseEntity<Link> update(@PathVariable Long linkId, @RequestBody LinkDTO dto) {
@@ -45,9 +47,14 @@ public class LinkController {
         return ResponseEntity.ok(updatedLink);
     }
 
-    @DeleteMapping("/{linkId}")
-    public ResponseEntity<Void> delete(@PathVariable Long linkId) {
+   @DeleteMapping("/{linkId}")
+public ResponseEntity<?> delete(@PathVariable Long linkId) {
+    try {
         linkService.delete(linkId);
         return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+        e.printStackTrace(); // INI WAJIB agar error muncul di terminal
+        return ResponseEntity.status(500).body("Gagal hapus: " + e.getMessage());
     }
+}
 }

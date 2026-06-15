@@ -35,6 +35,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         boolean isPermittedPath = PERMITTED_PATHS.stream().anyMatch(requestURI::startsWith);
         boolean isPublicLinkGet = requestURI.startsWith("/api/links/") && "GET".equals(request.getMethod());
+        
 
         if (isPermittedPath || isPublicLinkGet) {
             filterChain.doFilter(request, response);

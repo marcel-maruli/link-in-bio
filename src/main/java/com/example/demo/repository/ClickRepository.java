@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClickRepository extends JpaRepository<ClickEvent, Long> {
     long countByLinkId(Long linkId);
+    void deleteByLinkId(Long linkId);
 }
