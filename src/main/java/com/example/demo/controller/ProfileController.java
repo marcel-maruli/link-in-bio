@@ -48,7 +48,7 @@ public class ProfileController {
 
     @GetMapping("/public/{username}")
     public ResponseEntity<ProfileDTO> getPublic(@PathVariable String username) {
-        Profile profile = profileService.findByUsername(username);
+        Profile profile = profileService.findByUserUsername(username);
         return ResponseEntity.ok(ProfileDTO.fromEntity(profile));
 
     }

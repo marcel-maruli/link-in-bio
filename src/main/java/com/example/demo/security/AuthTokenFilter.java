@@ -23,9 +23,20 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        System.out.println("DEBUG: Request masuk -> " + request.getMethod() + " " + request.getRequestURI());
+        String requestURI = request.getRequestURI();
+
+        if (requestURI.startsWith("/api/auth/")
+                || (requestURI.startsWith("/api/links/") && request.getMethod().equals("GET"))
+                || requestURI.startsWith("/api/public/")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             String jwt = parseJwt(request);
-
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null,
@@ -36,8 +47,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Token is not valid!");
             }
         } catch (Exception e) {
-            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "An authentication error has occurred.");
+            e.printStackTrace();
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Authentication failed.");
         }
     }
 

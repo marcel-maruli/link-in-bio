@@ -33,7 +33,6 @@ public class LinkController {
     public ResponseEntity<Link> update(@PathVariable Long linkId, @RequestBody LinkDTO dto) {
         Link link = linkRepo.findById(linkId).orElseThrow();
         Profile profile = profileService.findByUserId(linkId);
-
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
         if (!link.getProfile().getUser().getUsername().equals(currentUsername)) {

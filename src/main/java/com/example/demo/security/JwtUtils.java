@@ -38,10 +38,15 @@ public class JwtUtils {
                 .getSubject();
     }
 
+    private Key getSigningKey() {
+        byte[] keyBytes = jwtSecretString.getBytes();
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(key)
+                    .setSigningKey(getSigningKey())
                     .build()
                     .parseClaimsJws(authToken);
             return true;

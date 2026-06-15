@@ -47,6 +47,7 @@ public class LinkService {
         clickRepo.save(click);
     }
 
+    @Transactional
     public Link save(LinkDTO dto) {
         Link link = new Link();
         link.setTitle(dto.getTitle());
@@ -60,6 +61,7 @@ public class LinkService {
         return linkRepo.save(link);
     }
 
+    @Transactional
     public void delete(Long id) {
         linkRepo.deleteById(id);
     }

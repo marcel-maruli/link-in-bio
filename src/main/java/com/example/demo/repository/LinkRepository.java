@@ -7,7 +7,7 @@ import java.util.List;
 public interface LinkRepository extends JpaRepository<Link, Long> {
     List<Link> findByProfileId(Long profileId);
 
-    List<Link> findByProfileUsername(String username);
+    List<Link> findByProfileUserUsername(String username);
 
-    List<Link> findByProfileUsernameAndIsActiveTrue(String username);
+    List<Link> findByProfileUserUsernameAndIsActiveTrue(String username);
 }

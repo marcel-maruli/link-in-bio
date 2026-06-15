@@ -22,8 +22,8 @@ public class ProfileService {
         return profileRepository.save(profile);
     }
 
-    public Profile findByUsername(String username) {
-        return profileRepository.findByUsername(username)
+    public Profile findByUserUsername(String username) {
+        return profileRepository.findByUserUsername(username)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 
